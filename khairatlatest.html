@@ -1,0 +1,238 @@
+```html
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Falah TSCC - Smart Khairat Secure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-active { color: #059669; background: #ecfdf5; border-radius: 1rem; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="max-w-md mx-auto bg-white min-h-screen shadow-2xl relative text-slate-800">
+
+    <!-- MODAL POPUP -->
+    <div id="custom-alert" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+        <div class="bg-white rounded-[2rem] p-8 w-full max-w-xs shadow-2xl text-center border-t-4 border-emerald-500">
+            <div id="alert-icon" class="text-4xl mb-4">⚠️</div>
+            <h3 id="alert-title" class="font-black text-slate-800 uppercase mb-2 text-sm">Perhatian</h3>
+            <p id="alert-msg" class="text-[10px] font-bold text-slate-500 leading-relaxed mb-6 uppercase">Memuatkan data...</p>
+            <button onclick="closeAlert()" class="w-full bg-slate-800 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest active:scale-95 transition shadow-lg">Tutup</button>
+        </div>
+    </div>
+
+    <!-- SECTION: AUTH -->
+    <div id="auth-section" class="min-h-screen flex items-center justify-center p-6 bg-emerald-950">
+        <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full border-t-8 border-emerald-500 text-center">
+            <div class="mb-6">
+                <div class="text-5xl mb-2">🕌</div>
+                <h1 class="text-2xl font-extrabold text-slate-800 uppercase leading-tight">Al-Falah Elite</h1>
+                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Taman Seri Chinchin (SECURE)</p>
+                <div id="connection-status" class="mt-2 text-[8px] bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded-full inline-block font-bold">SEDANG DISEDIAKAN...</div>
+            </div>
+            
+            <!-- FORM: SIGNUP -->
+            <div id="signup-form" class="space-y-4">
+                <p class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest">Pendaftaran Ahli Baru</p>
+                <input id="reg-nama" type="text" placeholder="NAMA PENUH (IKUT IC)" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold uppercase border-none focus:ring-2 focus:ring-emerald-500">
+                <input id="reg-ic" type="number" placeholder="NO IC (12 DIGIT)" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center tracking-widest border-none focus:ring-2 focus:ring-emerald-500">
+                <input id="reg-password" type="password" placeholder="CIPTA KATA LALUAN" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center border-none focus:ring-2 focus:ring-emerald-500">
+                <button id="btn-reg" onclick="doRegister()" class="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition cursor-pointer block">Daftar & Masuk</button>
+                <p class="text-[10px] text-slate-400 font-bold uppercase">Dah ada akaun? <button onclick="toggleAuth(false)" class="text-emerald-600 underline">Log Masuk</button></p>
+            </div>
+
+            <!-- FORM: LOGIN -->
+            <div id="login-form" class="space-y-4 hidden">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Log Masuk Ahli</p>
+                <input id="login-ic" type="number" placeholder="MASUKKAN NO IC" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-center font-bold tracking-widest border-none focus:ring-2 focus:ring-emerald-500">
+                <input id="login-password" type="password" placeholder="MASUKKAN KATA LALUAN" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-center font-bold border-none focus:ring-2 focus:ring-emerald-500">
+                <button id="btn-login" onclick="doLogin()" class="w-full bg-emerald-800 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition cursor-pointer block">Masuk Dashboard</button>
+                <p class="text-[10px] text-slate-400 font-bold uppercase mt-2">Belum daftar? <button onclick="toggleAuth(true)" class="text-emerald-600 underline">Daftar Di Sini</button></p>
+            </div>
+
+            <!-- FORM: SET NEW PASSWORD -->
+            <div id="migration-form" class="space-y-4 hidden">
+                <p class="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Tetapan Keselamatan Kali Pertama</p>
+                <input id="migrate-ic-display" type="text" readonly class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center tracking-widest border-none text-slate-400">
+                <input id="migrate-password" type="password" placeholder="CIPTA KATA LALUAN BARU" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center border-none focus:ring-2 focus:ring-emerald-500">
+                <button id="btn-migrate" onclick="doMigratePassword()" class="w-full bg-amber-600 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition">Aktifkan Akaun & Masuk</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION: MAIN APP -->
+    <div id="main-app" class="hidden pb-24">
+        <header class="bg-emerald-800 p-6 rounded-b-[3rem] text-white shadow-xl">
+            <div class="flex justify-between items-start mb-6">
+                <div id="profile-trigger" onclick="bukaAdminPanel()" class="cursor-pointer select-none active:opacity-70">
+                    <p id="member-no-display" class="text-[9px] text-emerald-300 font-black uppercase tracking-widest mb-1">NO AHLI: --</p>
+                    <h2 class="font-extrabold text-lg leading-tight uppercase" id="user-display">PENGGUNA</h2>
+                    <p id="admin-badge" class="hidden text-[8px] bg-white/20 px-2 py-0.5 rounded-full inline-block mt-1 font-black">PENTADBIR (ADMIN)</p>
+                </div>
+                <button onclick="logout()" class="bg-red-500/20 px-3 py-1.5 rounded-xl border border-red-500/30 text-[10px] font-black uppercase transition active:bg-red-500">Keluar</button>
+            </div>
+
+            <!-- ADMIN PANEL -->
+            <div id="admin-panel" class="hidden bg-white p-5 rounded-3xl mb-6 text-slate-800 space-y-4 shadow-2xl border-2 border-emerald-500 max-h-[80vh] overflow-y-auto">
+                <div class="flex justify-between items-center sticky top-0 bg-white py-2 z-10 border-b">
+                    <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Panel Pentadbir Kariah</p>
+                    <button onclick="tutupAdmin()" class="text-[10px] text-slate-400 font-bold uppercase underline">Tutup</button>
+                </div>
+
+                <div id="admin-upgrade-box" class="bg-orange-50 p-4 rounded-2xl border border-orange-200 space-y-2">
+                    <p class="text-[9px] font-black text-orange-700 uppercase">Aktifkan Akses Penuh</p>
+                    <button onclick="makeMeAdmin()" class="w-full bg-orange-600 text-white py-2 rounded-xl font-black text-[9px] uppercase active:scale-95 transition">Jadikan Saya Admin</button>
+                </div>
+                
+                <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 space-y-3">
+                    <p class="text-[9px] font-black text-emerald-700 uppercase">Kemaskini Senarai AJK (Global)</p>
+                    <input id="admin-ajk-nama-1" type="text" placeholder="NAMA PENGERUSI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                    <input id="admin-ajk-tel-1" type="tel" placeholder="NO TEL PENGERUSI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                    <input id="admin-ajk-nama-2" type="text" placeholder="NAMA BENDAHARI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                    <input id="admin-ajk-tel-2" type="tel" placeholder="NO TEL BENDAHARI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                    <button id="btn-save-ajk" onclick="saveAJK()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md active:scale-95 transition">Simpan Untuk Semua Ahli</button>
+                </div>
+
+                <hr>
+
+                <div class="space-y-2">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Daftar Ahli Sedia Ada</p>
+                    <input id="admin-member-nama" type="text" placeholder="NAMA PENUH" class="w-full p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase border-none">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input id="admin-member-ic" type="number" placeholder="NO IC" class="p-3 bg-slate-100 rounded-xl text-xs font-bold border-none">
+                        <input id="admin-member-no" type="text" placeholder="NO AHLI" class="p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase border-none">
+                    </div>
+                    <button onclick="adminAddMember()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md active:scale-95 transition">Simpan Data Ahli</button>
+                </div>
+
+                <div class="space-y-2">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Senarai Database (<span id="count-ahli">0</span>)</p>
+                    <div id="admin-member-list" class="space-y-2 max-h-60 overflow-y-auto pr-2 text-[10px]"></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-center">
+                <div class="bg-white/10 p-4 rounded-2xl border border-white/10">
+                    <p class="text-[8px] font-bold opacity-60 uppercase">Status</p>
+                    <p id="status-display" class="text-xs font-bold text-emerald-300 uppercase italic">AKTIF 2026</p>
+                </div>
+                <div class="bg-white/10 p-4 rounded-2xl border border-white/10">
+                    <p class="text-[8px] font-bold opacity-60 uppercase">Manfaat</p>
+                    <p class="text-xs font-bold">RM 1,000</p>
+                </div>
+            </div>
+        </header>
+
+        <main class="p-6">
+            <!-- DASHBOARD HOME VIEW -->
+            <div id="dashboard" class="tab-content active space-y-6">
+                <div class="grid grid-cols-5 gap-1 text-center">
+                    <button onclick="showTab('manfaat', document.getElementById('btn-dash'))">
+                        <div class="bg-emerald-100 text-emerald-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">💰</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Manfaat</p>
+                    </button>
+                    <button onclick="showTab('keluarga', document.getElementById('btn-fam'))">
+                        <div class="bg-pink-100 text-pink-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">🏠</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Keluarga</p>
+                    </button>
+                    <button onclick="showTab('permohonan', document.getElementById('btn-apply'))">
+                        <div class="bg-amber-100 text-amber-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">📝</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Borang</p>
+                    </button>
+                    <button onclick="showTab('organisasi', document.getElementById('btn-org'))">
+                        <div class="bg-purple-100 text-purple-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">👥</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">AJK</p>
+                    </button>
+                    <button onclick="showTab('bayaran', document.getElementById('btn-pay'))">
+                        <div class="bg-blue-100 text-blue-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">🧾</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Bayaran</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- BORANG APPLICATION TAB -->
+            <section id="permohonan" class="tab-content space-y-4">
+                <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
+                    <p class="text-[10px] font-black text-amber-600 uppercase mb-4 tracking-widest">Borang Permohonan Ahli Baru</p>
+                    <div class="space-y-3">
+                        <input id="app-nama" type="text" placeholder="NAMA PENUH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase border-none focus:ring-2 focus:ring-amber-500">
+                        <input id="app-ic" type="number" placeholder="NO KAD PENGENALAN" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold border-none focus:ring-2 focus:ring-amber-500">
+                        <input id="app-tel" type="tel" placeholder="NO TELEFON" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold border-none focus:ring-2 focus:ring-amber-500">
+                        <textarea id="app-alamat" placeholder="ALAMAT RUMAH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold border-none focus:ring-2 focus:ring-amber-500 h-24 uppercase"></textarea>
+                        <input id="app-pekerjaan" type="text" placeholder="PEKERJAAN" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase border-none focus:ring-2 focus:ring-amber-500">
+                    </div>
+                </div>
+                <button id="btn-submit-app" onclick="submitPermohonan()" class="w-full bg-amber-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg active:scale-95 transition">Hantar Permohonan</button>
+            </section>
+
+            <!-- KELUARGA & TANGGUNGAN TAB -->
+            <section id="keluarga" class="tab-content space-y-4">
+                <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
+                    <p class="text-[10px] font-black text-emerald-600 uppercase mb-4 tracking-widest">Waris Utama</p>
+                    <div class="space-y-2">
+                        <input id="waris-nama" type="text" placeholder="NAMA PENUH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase border-none focus:ring-2 focus:ring-emerald-500">
+                        <div class="grid grid-cols-2 gap-2">
+                            <select id="waris-hub" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold uppercase border-none">
+                                <option value="">HUBUNGAN</option>
+                                <option value="ISTERI">ISTERI</option><option value="SUAMI">SUAMI</option><option value="ANAK">ANAK</option><option value="IBU">IBU</option><option value="BAPA">BAPA</option>
+                            </select>
+                            <input id="waris-tel" type="tel" placeholder="NO TEL" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold border-none">
+                        </div>
+                    </div>
+                </div>
+                <div id="tanggungan-container" class="space-y-4"></div>
+                <button onclick="saveKeluarga(true)" class="w-full bg-pink-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg">Simpan Rekod Keluarga</button>
+            </section>
+
+            <!-- DISPLAY BARISAN AJK -->
+            <section id="organisasi" class="tab-content space-y-4">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mb-2">Barisan Pentadbiran Khairat</p>
+                <div id="ajk-display-container" class="space-y-3">
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="bg-emerald-100 w-12 h-12 rounded-2xl flex items-center justify-center text-xl">👤</div>
+                        <div class="flex-1">
+                            <p class="text-[8px] font-black text-emerald-600 uppercase tracking-widest">Pengerusi</p>
+                            <p id="view-ajk-nama-1" class="text-xs font-black text-slate-800 uppercase">-</p>
+                            <a id="link-ajk-tel-1" href="#" class="text-[10px] font-bold text-blue-600 flex items-center mt-1">📞 <span id="view-ajk-tel-1">-</span></a>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
+                        <div class="bg-purple-100 w-12 h-12 rounded-2xl flex items-center justify-center text-xl">💰</div>
+                        <div class="flex-1">
+                            <p class="text-[8px] font-black text-purple-600 uppercase tracking-widest">Bendahari</p>
+                            <p id="view-ajk-nama-2" class="text-xs font-black text-slate-800 uppercase">-</p>
+                            <a id="link-ajk-tel-2" href="#" class="text-[10px] font-bold text-blue-600 flex items-center mt-1">📞 <span id="view-ajk-tel-2">-</span></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PECAHAN MANFAAT -->
+            <section id="manfaat" class="tab-content space-y-4">
+                <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm text-center">
+                    <h3 class="text-5xl font-black text-slate-800 mb-1">RM 1,000</h3>
+                    <p class="text-emerald-600 font-bold text-[10px] tracking-widest uppercase mb-6 italic">Pecahan Manfaat Khairat</p>
+                    <div class="text-left space-y-3">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex justify-between items-center">
+                            <div><p class="text-[9px] font-black text-slate-400 uppercase">Pengurusan</p><p class="text-xs font-extrabold text-slate-800 uppercase">Kos Pengurusan Jenazah</p></div>
+                            <p class="text-xs font-black text-emerald-600">RM 750</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 flex justify-between items-center">
+                            <div><p class="text-[9px] font-black text-slate-400 uppercase">Waris</p><p class="text-xs font-extrabold text-slate-800 uppercase">Saguhati Waris</p></div>
+                            <p class="text-xs font-black text-emerald-600">RM 250</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BAYARAN SUMBANGAN -->
+            <section id="bayaran" class="tab-content space-y-4">
+                <div class="bg-emerald-950 p-8 rounded-[2.5rem] text-white shadow-lg text-center">
+                    <p class="text-[9px]
