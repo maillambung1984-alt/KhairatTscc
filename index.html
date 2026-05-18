@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Al-Falah TSCC - Smart Khairat</title>
+    <title>Al-Falah TSCC - Smart Khairat Secure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,6 @@
 </head>
 <body class="max-w-md mx-auto bg-white min-h-screen shadow-2xl relative text-slate-800">
 
-    <!-- MODAL POPUP -->
     <div id="custom-alert" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
         <div class="bg-white rounded-[2rem] p-8 w-full max-w-xs shadow-2xl text-center border-t-4 border-emerald-500">
             <div id="alert-icon" class="text-4xl mb-4">⚠️</div>
@@ -28,78 +27,101 @@
         </div>
     </div>
 
-    <!-- SECTION: AUTH -->
     <div id="auth-section" class="min-h-screen flex items-center justify-center p-6 bg-emerald-950">
         <div class="bg-white p-8 rounded-[2.5rem] shadow-2xl w-full border-t-8 border-emerald-500 text-center">
             <div class="mb-6">
                 <div class="text-5xl mb-2">🕌</div>
                 <h1 class="text-2xl font-extrabold text-slate-800 uppercase leading-tight">Al-Falah Elite</h1>
-                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Taman Seri Chinchin</p>
+                <p class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Taman Seri Chinchin (SECURE)</p>
+                <div id="connection-status" class="mt-2 text-[8px] bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 px-2 py-0.5 rounded-full inline-block font-bold select-none">MOD TEMPATAN AKTIF</div>
             </div>
             
             <div id="signup-form" class="space-y-4">
                 <p class="text-[9px] font-bold text-emerald-600 uppercase tracking-widest">Pendaftaran Ahli Baru</p>
-                <input id="reg-nama" type="text" placeholder="NAMA PENUH" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold uppercase border-none focus:ring-2 focus:ring-emerald-500">
+                <input id="reg-nama" type="text" placeholder="NAMA PENUH (IKUT IC)" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold uppercase border-none focus:ring-2 focus:ring-emerald-500">
                 <input id="reg-ic" type="number" placeholder="NO IC (12 DIGIT)" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center tracking-widest border-none focus:ring-2 focus:ring-emerald-500">
-                <button id="btn-reg" onclick="doRegister()" class="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition">Daftar & Masuk</button>
+                <input id="reg-password" type="password" placeholder="CIPTA KATA LALUAN" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-sm font-bold text-center border-none focus:ring-2 focus:ring-emerald-500">
+                <button id="btn-reg" onclick="doRegister()" class="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition cursor-pointer block">Daftar & Masuk</button>
                 <p class="text-[10px] text-slate-400 font-bold uppercase">Dah ada akaun? <button onclick="toggleAuth(false)" class="text-emerald-600 underline">Log Masuk</button></p>
             </div>
 
-            <div id="login-form" class="space-y-4 hidden">
+            <div id="login-form" class="hidden space-y-4">
                 <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Log Masuk Ahli</p>
-                <input id="login-ic" type="number" placeholder="MASUKKAN NO IC" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-center font-bold tracking-widest text-lg border-none focus:ring-2 focus:ring-emerald-500">
-                <button id="btn-login" onclick="doLogin()" class="w-full bg-slate-800 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition">Masuk Dashboard</button>
+                <input id="login-ic" type="number" placeholder="MASUKKAN NO IC" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-center font-bold tracking-widest border-none focus:ring-2 focus:ring-emerald-500">
+                <input id="login-password" type="password" placeholder="MASUKKAN KATA LALUAN" class="w-full bg-slate-100 p-4 rounded-2xl outline-none text-center font-bold border-none focus:ring-2 focus:ring-emerald-500">
+                <button id="btn-login" onclick="doLogin()" class="w-full bg-emerald-800 text-white py-4 rounded-2xl font-black shadow-lg uppercase tracking-wider active:scale-95 transition cursor-pointer block">Masuk Dashboard</button>
                 <p class="text-[10px] text-slate-400 font-bold uppercase mt-2">Belum daftar? <button onclick="toggleAuth(true)" class="text-emerald-600 underline">Daftar Di Sini</button></p>
             </div>
         </div>
     </div>
 
-    <!-- SECTION: MAIN APP -->
     <div id="main-app" class="hidden pb-24">
         <header class="bg-emerald-800 p-6 rounded-b-[3rem] text-white shadow-xl">
             <div class="flex justify-between items-start mb-6">
-                <div id="profile-trigger" onclick="adminClick()" class="cursor-pointer select-none active:opacity-70">
+                <div id="profile-trigger" onclick="handleNameSecretClick()" class="cursor-pointer select-none active:opacity-70 flex-1 mr-4">
                     <p id="member-no-display" class="text-[9px] text-emerald-300 font-black uppercase tracking-widest mb-1">NO AHLI: --</p>
                     <h2 class="font-extrabold text-lg leading-tight uppercase" id="user-display">PENGGUNA</h2>
-                    <p id="admin-badge" class="hidden text-[8px] bg-white/20 px-2 py-0.5 rounded-full inline-block mt-1 font-black">ADMIN MODE</p>
+                    <p id="admin-badge" class="hidden text-[8px] bg-white/20 px-2 py-0.5 rounded-full inline-block mt-1 font-black">PENTADBIR (ADMIN)</p>
                 </div>
                 <button onclick="logout()" class="bg-red-500/20 px-3 py-1.5 rounded-xl border border-red-500/30 text-[10px] font-black uppercase transition active:bg-red-500">Keluar</button>
             </div>
 
-            <!-- ADMIN PANEL -->
             <div id="admin-panel" class="hidden bg-white p-5 rounded-3xl mb-6 text-slate-800 space-y-4 shadow-2xl border-2 border-emerald-500 max-h-[80vh] overflow-y-auto">
                 <div class="flex justify-between items-center sticky top-0 bg-white py-2 z-10 border-b">
-                    <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Panel Pentadbir AJK</p>
+                    <p class="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Panel Pentadbir Kariah</p>
                     <button onclick="tutupAdmin()" class="text-[10px] text-slate-400 font-bold uppercase underline">Tutup</button>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-200 space-y-3">
+                    <p class="text-[9px] font-black text-blue-800 uppercase">Penyelarasan Awan (Firebase Sync) 🌐</p>
+                    <p class="text-[8px] text-blue-600 font-semibold leading-tight">Masukkan butiran projek Firebase anda untuk menyelaraskan tetapan AJK dan ahli kariah secara global kepada semua peranti pengguna.</p>
+                    <div class="space-y-1.5">
+                        <input id="db-api-key" type="password" placeholder="API KEY" class="w-full p-2 bg-white rounded-lg text-[9px] border border-blue-200">
+                        <input id="db-project-id" type="text" placeholder="PROJECT ID" class="w-full p-2 bg-white rounded-lg text-[9px] border border-blue-200">
+                        <input id="db-auth-domain" type="text" placeholder="AUTH DOMAIN" class="w-full p-2 bg-white rounded-lg text-[9px] border border-blue-200">
+                        <input id="db-app-id" type="text" placeholder="APP ID" class="w-full p-2 bg-white rounded-lg text-[9px] border border-blue-200">
+                    </div>
+                    <button onclick="saveFirebaseConfig()" class="w-full bg-blue-700 text-white py-2 rounded-xl font-black text-[9px] uppercase shadow-md active:scale-95 transition">Simpan & Hubung Pelayan</button>
+                    <button onclick="resetFirebaseConfig()" class="w-full bg-slate-200 text-slate-700 py-1.5 rounded-xl font-bold text-[8px] uppercase active:scale-95 transition">Set Semula ke Mod Tempatan</button>
                 </div>
                 
                 <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 space-y-3">
-                    <p class="text-[9px] font-black text-emerald-700 uppercase">Kemaskini Senarai AJK (Global)</p>
+                    <p class="text-[9px] font-black text-emerald-700 uppercase">Kemaskini Senarai Jawatankuasa (AJK)</p>
                     <div class="space-y-2">
-                        <input id="admin-ajk-nama-1" type="text" placeholder="NAMA PENGERUSI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
-                        <input id="admin-ajk-tel-1" type="tel" placeholder="NO TEL PENGERUSI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                        <p class="text-[8px] font-black text-slate-400">1. PENGERUSI 👤</p>
+                        <input id="admin-ajk-nama-1" type="text" placeholder="NAMA PENGERUSI" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                        <input id="admin-ajk-tel-1" type="tel" placeholder="NO TEL PENGERUSI" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
                     </div>
                     <div class="space-y-2">
-                        <input id="admin-ajk-nama-2" type="text" placeholder="NAMA BENDAHARI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
-                        <input id="admin-ajk-tel-2" type="tel" placeholder="NO TEL BENDAHARI" class="w-full p-3 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                        <p class="text-[8px] font-black text-slate-400">2. TIMBALAN PENGERUSI 👥</p>
+                        <input id="admin-ajk-nama-2" type="text" placeholder="NAMA TIMBALAN PENGERUSI" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                        <input id="admin-ajk-tel-2" type="tel" placeholder="NO TEL TIMBALAN" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
                     </div>
-                    <button id="btn-save-ajk" onclick="saveAJK()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md active:scale-95 transition">Simpan Untuk Semua Ahli</button>
+                    <div class="space-y-2">
+                        <p class="text-[8px] font-black text-slate-400">3. SETIAUSAHA 📝</p>
+                        <input id="admin-ajk-nama-3" type="text" placeholder="NAMA SETIAUSAHA" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                        <input id="admin-ajk-tel-3" type="tel" placeholder="NO TEL SETIAUSAHA" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-[8px] font-black text-slate-400">4. BENDAHARI 💰</p>
+                        <input id="admin-ajk-nama-4" type="text" placeholder="NAMA BENDAHARI" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold uppercase border border-slate-200">
+                        <input id="admin-ajk-tel-4" type="tel" placeholder="NO TEL BENDAHARI" class="w-full p-2 bg-white rounded-xl text-[10px] font-bold border border-slate-200">
+                    </div>
+                    <button onclick="saveAJK()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md transition">Simpan Tetapan AJK</button>
                 </div>
 
-                <hr>
-
                 <div class="space-y-2">
-                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Daftar Ahli Sedia Ada</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Daftar Ahli Manual</p>
+                    <input id="admin-member-nama" type="text" placeholder="NAMA PENUH" class="w-full p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase">
                     <div class="grid grid-cols-2 gap-2">
-                        <input id="admin-member-nama" type="text" placeholder="NAMA PENUH" class="col-span-2 p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase border-none">
-                        <input id="admin-member-ic" type="number" placeholder="NO IC (12 DIGIT)" class="p-3 bg-slate-100 rounded-xl text-xs font-bold border-none">
-                        <input id="admin-member-no" type="text" placeholder="NO AHLI" class="p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase border-none">
+                        <input id="admin-member-ic" type="number" placeholder="NO IC" class="p-3 bg-slate-100 rounded-xl text-xs font-bold">
+                        <input id="admin-member-no" type="text" placeholder="NO AHLI" class="p-3 bg-slate-100 rounded-xl text-xs font-bold uppercase">
                     </div>
-                    <button onclick="adminAddMember()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md active:scale-95 transition">Simpan Data Ahli</button>
+                    <button onclick="adminAddMember()" class="w-full bg-slate-800 text-white py-3 rounded-xl font-black text-[10px] uppercase shadow-md transition">Simpan Ahli</button>
                 </div>
 
                 <div class="space-y-2">
-                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Senarai Database (<span id="count-ahli">0</span>)</p>
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-tighter">Database Tempatan (<span id="count-ahli">0</span>)</p>
                     <div id="admin-member-list" class="space-y-2 max-h-60 overflow-y-auto pr-2 text-[10px]"></div>
                 </div>
             </div>
@@ -109,24 +131,28 @@
                     <p class="text-[8px] font-bold opacity-60 uppercase">Status</p>
                     <p id="status-display" class="text-xs font-bold text-emerald-300 uppercase italic">AKTIF 2026</p>
                 </div>
-                <div class="bg-white/10 p-4 rounded-2xl border border-white/10">
+                <!-- BOLEH DIKLIK: Membolehkan navigasi terus ke tab manfaat dari kad header -->
+                <div onclick="showTab('manfaat', document.getElementById('btn-dash'))" class="bg-white/10 p-4 rounded-2xl border border-white/10 cursor-pointer active:scale-95 transition">
                     <p class="text-[8px] font-bold opacity-60 uppercase">Manfaat</p>
-                    <p class="text-xs font-bold">RM 1,000</p>
+                    <p class="text-xs font-bold text-white">RM 1,000</p>
                 </div>
             </div>
         </header>
 
         <main class="p-6">
-            <!-- TABS -->
             <div id="dashboard" class="tab-content active space-y-6">
-                <div class="grid grid-cols-4 gap-2 text-center">
+                <div class="grid grid-cols-5 gap-1 text-center">
                     <button onclick="showTab('manfaat', document.getElementById('btn-dash'))">
                         <div class="bg-emerald-100 text-emerald-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">💰</div>
                         <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Manfaat</p>
                     </button>
                     <button onclick="showTab('keluarga', document.getElementById('btn-fam'))">
-                        <div class="bg-pink-100 text-pink-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">🏠</div>
+                        <div class="bg-pink-100 text-pink-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">👨‍👩‍👧‍👦</div>
                         <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Keluarga</p>
+                    </button>
+                    <button onclick="showTab('permohonan', document.getElementById('btn-apply'))">
+                        <div class="bg-amber-100 text-amber-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">📝</div>
+                        <p class="text-[8px] font-black text-slate-500 mt-2 uppercase">Borang</p>
                     </button>
                     <button onclick="showTab('organisasi', document.getElementById('btn-org'))">
                         <div class="bg-purple-100 text-purple-600 aspect-square rounded-2xl flex items-center justify-center text-xl shadow-sm">👥</div>
@@ -139,46 +165,43 @@
                 </div>
             </div>
 
+            <section id="permohonan" class="tab-content space-y-4">
+                <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
+                    <p class="text-[10px] font-black text-amber-600 uppercase mb-4 tracking-widest">Borang Permohonan Ahli Baru</p>
+                    <div class="space-y-3">
+                        <input id="app-nama" type="text" placeholder="NAMA PENUH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase">
+                        <input id="app-ic" type="number" placeholder="NO KAD PENGENALAN" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold">
+                        <input id="app-tel" type="tel" placeholder="NO TELEFON" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold">
+                    </div>
+                </div>
+                <button onclick="showAlert('DIHANTAR', 'Permohonan anda telah direkodkan locally.', '✅')" class="w-full bg-amber-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg">Hantar Permohonan</button>
+            </section>
+
             <section id="keluarga" class="tab-content space-y-4">
                 <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm">
                     <p class="text-[10px] font-black text-emerald-600 uppercase mb-4 tracking-widest">Waris Utama</p>
                     <div class="space-y-2">
-                        <input id="waris-nama" type="text" placeholder="NAMA PENUH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase border-none focus:ring-2 focus:ring-emerald-500">
+                        <input id="waris-nama" type="text" placeholder="NAMA PENUH" class="w-full p-4 bg-slate-50 rounded-2xl text-xs font-bold uppercase">
                         <div class="grid grid-cols-2 gap-2">
-                            <select id="waris-hub" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold uppercase border-none">
-                                <option value="">HUBUNGAN</option>
-                                <option value="ISTERI">ISTERI</option><option value="SUAMI">SUAMI</option><option value="ANAK">ANAK</option><option value="IBU">IBU</option><option value="BAPA">BAPA</option>
+                            <select id="waris-hub" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold uppercase">
+                                <option value="ISTERI">ISTERI</option><option value="SUAMI">SUAMI</option><option value="ANAK">ANAK</option>
                             </select>
-                            <input id="waris-tel" type="tel" placeholder="NO TEL" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold border-none">
+                            <input id="waris-tel" type="tel" placeholder="NO TEL" class="p-3 bg-slate-100 rounded-xl text-[10px] font-bold">
                         </div>
                     </div>
                 </div>
                 <div id="tanggungan-container" class="space-y-4"></div>
-                <button onclick="saveKeluarga(true)" class="w-full bg-pink-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg">Simpan Rekod Keluarga</button>
+                <button onclick="saveKeluarga()" class="w-full bg-pink-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg">Simpan Rekod Keluarga</button>
             </section>
 
             <section id="organisasi" class="tab-content space-y-4">
                 <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center mb-2">Barisan Pentadbiran Khairat</p>
                 <div id="ajk-display-container" class="space-y-3">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                        <div class="bg-emerald-100 w-12 h-12 rounded-2xl flex items-center justify-center text-xl">👤</div>
-                        <div class="flex-1">
-                            <p class="text-[8px] font-black text-emerald-600 uppercase tracking-widest">Pengerusi</p>
-                            <p id="view-ajk-nama-1" class="text-xs font-black text-slate-800 uppercase">-</p>
-                            <a id="link-ajk-tel-1" href="#" class="text-[10px] font-bold text-blue-600 flex items-center mt-1">📞 <span id="view-ajk-tel-1">-</span></a>
-                        </div>
-                    </div>
-                    <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                        <div class="bg-purple-100 w-12 h-12 rounded-2xl flex items-center justify-center text-xl">💰</div>
-                        <div class="flex-1">
-                            <p class="text-[8px] font-black text-purple-600 uppercase tracking-widest">Bendahari</p>
-                            <p id="view-ajk-nama-2" class="text-xs font-black text-slate-800 uppercase">-</p>
-                            <a id="link-ajk-tel-2" href="#" class="text-[10px] font-bold text-blue-600 flex items-center mt-1">📞 <span id="view-ajk-tel-2">-</span></a>
-                        </div>
-                    </div>
+                    <!-- Dinamik dipaparkan dari JS -->
                 </div>
             </section>
 
+            <!-- TAB MANFAAT: Dipastikan sentiasa utuh dan stabil -->
             <section id="manfaat" class="tab-content space-y-4">
                 <div class="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm text-center">
                     <h3 class="text-5xl font-black text-slate-800 mb-1">RM 1,000</h3>
@@ -197,83 +220,452 @@
             </section>
 
             <section id="bayaran" class="tab-content space-y-4">
-                <div class="bg-emerald-950 p-8 rounded-[2.5rem] text-white shadow-lg text-center">
-                    <p class="text-[9px] font-bold text-emerald-400 uppercase mb-4 tracking-widest">Akaun BSN (Khairat)</p>
+                <div class="bg-emerald-950 p-8 rounded-[2.5rem] text-white text-center">
+                    <p class="text-[9px] font-bold text-emerald-400 uppercase mb-4">Akaun BSN (Khairat)</p>
                     <p class="text-xl font-black tracking-widest mb-6">0410041000169514</p>
-                    <button onclick="copyAcc()" class="w-full bg-emerald-500 py-4 rounded-2xl text-[10px] font-black uppercase">Salin No. Akaun</button>
+                    <button onclick="copyAcc()" class="w-full bg-emerald-500 py-4 rounded-2xl text-[10px] font-black">Salin No. Akaun</button>
                 </div>
             </section>
         </main>
 
         <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-3 max-w-md mx-auto shadow-2xl z-50">
             <button id="btn-dash" onclick="showTab('dashboard', this)" class="flex flex-col items-center flex-1 nav-active text-emerald-600"><span class="text-xl">🏠</span><span class="text-[8px] font-black uppercase mt-1">Utama</span></button>
-            <button id="btn-fam" onclick="showTab('keluarga', this)" class="flex flex-col items-center flex-1 text-slate-400"><span class="text-xl">🏠</span><span class="text-[8px] font-black uppercase mt-1">Keluarga</span></button>
+            <button id="btn-fam" onclick="showTab('keluarga', this)" class="flex flex-col items-center flex-1 text-slate-400"><span class="text-xl">👨‍👩‍👧‍👦</span><span class="text-[8px] font-black uppercase mt-1">Keluarga</span></button>
+            <button id="btn-apply" onclick="showTab('permohonan', this)" class="flex flex-col items-center flex-1 text-slate-400"><span class="text-xl">📝</span><span class="text-[8px] font-black uppercase mt-1">Borang</span></button>
             <button id="btn-org" onclick="showTab('organisasi', this)" class="flex flex-col items-center flex-1 text-slate-400"><span class="text-xl">👥</span><span class="text-[8px] font-black uppercase mt-1">AJK</span></button>
             <button id="btn-pay" onclick="showTab('bayaran', this)" class="flex flex-col items-center flex-1 text-slate-400"><span class="text-xl">🧾</span><span class="text-[8px] font-black uppercase mt-1">Bayaran</span></button>
         </nav>
     </div>
 
-    <!-- FIREBASE MODULES -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'smart-khairat-v1';
-        
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
+    <script>
+        const SUPER_ADMIN_IC = "900101045555";
         let currentUserProfile = null;
-        let isAuthReady = false;
-        let masterAJK = [{}, {}];
-        let clickCount = 0;
+        let secretClicks = 0;
 
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (e) {
-                console.error("Auth Init Error:", e);
-                showAlert("RALAT AUTH", "Gagal menyambung ke pelayan.");
+        // Didaftarkan secara global pada window bagi mengelakkan ralat modul Firebase
+        window.masterAJK = JSON.parse(localStorage.getItem('sk_master_ajk')) || [
+            { nama: "EN. AWG MOHD FAUZI", tel: "019-3324541", jawatan: "Pengerusi", emoji: "👤", bg: "bg-emerald-100" },
+            { nama: "EN. MD YUSOF BIN KASSIM", tel: "013-6457891", jawatan: "Timbalan Pengerusi", emoji: "👥", bg: "bg-blue-100" },
+            { nama: "PN. HJH SALMAH SULAIMAN", tel: "017-6123456", jawatan: "Setiausaha", emoji: "📝", bg: "bg-amber-100" },
+            { nama: "EN. MOHD ZAN", tel: "012-6548792", jawatan: "Bendahari", emoji: "💰", bg: "bg-purple-100" }
+        ];
+
+        window.syncAJKUI = function(ajk) {
+            const container = document.getElementById('ajk-display-container');
+            if (container && ajk) {
+                container.innerHTML = ajk.map(item => `
+                    <div class="bg-white p-6 rounded-3xl border border-slate-100 flex items-center gap-4">
+                        <div class="${item.bg || 'bg-slate-100'} w-12 h-12 rounded-2xl flex items-center justify-center text-xl">${item.emoji || '👤'}</div>
+                        <div class="flex-1">
+                            <p class="text-[8px] font-black text-slate-400 uppercase">${item.jawatan}</p>
+                            <p class="text-xs font-black text-slate-800 uppercase">${item.nama || '-'}</p>
+                            <a href="tel:${item.tel || ''}" class="text-[10px] text-blue-600 block mt-1">📞 <span>${item.tel || '-'}</span></a>
+                        </div>
+                    </div>
+                `).join('');
             }
         };
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                isAuthReady = true;
-                checkSession();
-                setupGlobalListeners();
+        function handleNameSecretClick() {
+            if (!currentUserProfile) return;
+
+            if (currentUserProfile.isAdmin) {
+                bukaAdminPanel();
+                return;
             }
-        });
 
-        function setupGlobalListeners() {
-            if (!isAuthReady) return;
-            // CORRECT PATH: Segmen genap (6 segmen) - Dokumen
-            const ajkDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'global');
-            onSnapshot(ajkDocRef, (snap) => {
-                if (snap.exists()) {
-                    masterAJK = snap.data().ajk || [{}, {}];
-                    syncAJKUI(masterAJK);
+            secretClicks++;
+            if (secretClicks >= 5) {
+                secretClicks = 0; 
+                
+                currentUserProfile.isAdmin = true;
+                currentUserProfile.memberNo = "AJK-01"; 
+
+                saveUserLocal(currentUserProfile.ic, currentUserProfile);
+                showApp(currentUserProfile);
+                bukaAdminPanel(); 
+                showAlert("AKSES ADMIN", "Akaun anda telah dinaik taraf sebagai Pentadbir (Admin) secara rahsia!", "🔑");
+
+                if (window.cloudBridge && typeof window.cloudBridge.saveUserCloud === 'function') {
+                    window.cloudBridge.saveUserCloud(currentUserProfile);
                 }
-            }, (err) => console.warn("AJK Live Sync Restricted:", err.message));
-
-            // CORRECT PATH: Segmen ganjil (5 segmen) - Koleksi
-            const usersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
-            onSnapshot(usersColRef, (snap) => {
-                const users = [];
-                snap.forEach(doc => users.push(doc.data()));
-                updateAdminList(users);
-            }, (err) => console.warn("User List Access Restricted:", err.message));
+            }
         }
 
-        async function checkSession() {
-            const savedIc = localStorage.getItem('khairat_current_ic');
+        function saveUserLocal(ic, userData) {
+            localStorage.setItem('sk_user_' + ic, JSON.stringify(userData));
+            let list = JSON.parse(localStorage.getItem('sk_all_users') || '[]');
+            if (!list.some(u => u.ic === ic)) { list.push({ ic: ic, nama: userData.nama, memberNo: userData.memberNo }); }
+            localStorage.setItem('sk_all_users', JSON.stringify(list));
+        }
+
+        function getUserLocal(ic) {
+            const data = localStorage.getItem('sk_user_' + ic);
+            return data ? JSON.parse(data) : null;
+        }
+
+        function doRegister() {
+            const nama = document.getElementById('reg-nama').value.trim().toUpperCase();
+            const ic = document.getElementById('reg-ic').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+
+            if (!nama || ic.length < 12 || password.length < 4) { 
+                showAlert("RALAT INPUT", "Sila isi nama penuh, IC (12 digit) & kata laluan."); return; 
+            }
+
+            const isThisAdmin = (ic === SUPER_ADMIN_IC);
+            const userData = {
+                ic, nama, password,
+                memberNo: isThisAdmin ? "AJK-01" : "MEMBER-" + Math.floor(1000 + Math.random() * 9000),
+                isAdmin: isThisAdmin,
+                warisData: {}, tanggungan: []
+            };
+
+            saveUserLocal(ic, userData);
+            localStorage.setItem('sk_current_ic', ic);
+            currentUserProfile = userData;
+            showApp(userData);
+            showAlert("BERJAYA", "Pendaftaran selamat mod tempatan berjaya!", "✅");
+
+            if (window.cloudBridge && typeof window.cloudBridge.saveUserCloud === 'function') {
+                window.cloudBridge.saveUserCloud(userData);
+            }
+        }
+
+        function doLogin() {
+            const ic = document.getElementById('login-ic').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+            
+            const localUser = getUserLocal(ic);
+            if (localUser && localUser.password === password) {
+                localStorage.setItem('sk_current_ic', ic);
+                currentUserProfile = localUser;
+                showApp(localUser);
+                return;
+            }
+
+            if (window.cloudBridge && typeof window.cloudBridge.getUserCloud === 'function') {
+                window.cloudBridge.getUserCloud(ic).then(cloudUser => {
+                    if (cloudUser && cloudUser.password === password) {
+                        saveUserLocal(ic, cloudUser);
+                        localStorage.setItem('sk_current_ic', ic);
+                        currentUserProfile = cloudUser;
+                        showApp(cloudUser);
+                    } else {
+                        showAlert("GAGAL", "Rekod tidak ditemui atau kata laluan salah.");
+                    }
+                }).catch(() => {
+                    showAlert("GAGAL", "Rekod tidak ditemui atau kata laluan salah.");
+                });
+            } else {
+                showAlert("GAGAL", "Rekod tidak ditemui atau kata laluan salah.");
+            }
+        }
+
+        function showApp(user) {
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+            document.getElementById('user-display').innerText = user.nama;
+            document.getElementById('member-no-display').innerText = `NO AHLI: ${user.memberNo}`;
+            
+            if (user.isAdmin) {
+                document.getElementById('admin-badge').classList.remove('hidden');
+                updateAdminList();
+                for (let i = 1; i <= 4; i++) {
+                    const namaInput = document.getElementById(`admin-ajk-nama-${i}`);
+                    const telInput = document.getElementById(`admin-ajk-tel-${i}`);
+                    if (namaInput) namaInput.value = window.masterAJK[i-1]?.nama || '';
+                    if (telInput) telInput.value = window.masterAJK[i-1]?.tel || '';
+                }
+
+                const savedConfig = localStorage.getItem('sk_firebase_config');
+                if (savedConfig) {
+                    try {
+                        const cfg = JSON.parse(savedConfig);
+                        document.getElementById('db-api-key').value = cfg.apiKey || '';
+                        document.getElementById('db-project-id').value = cfg.projectId || '';
+                        document.getElementById('db-auth-domain').value = cfg.authDomain || '';
+                        document.getElementById('db-app-id').value = cfg.appId || '';
+                    } catch(e) {}
+                }
+            } else {
+                document.getElementById('admin-badge').classList.add('hidden');
+            }
+            renderTanggungan(user.tanggungan || []);
+            window.syncAJKUI(window.masterAJK);
+        }
+
+        function saveKeluarga() {
+            if(!currentUserProfile) return;
+            currentUserProfile.warisData = {
+                nama: document.getElementById('waris-nama').value.toUpperCase(),
+                hub: document.getElementById('waris-hub').value,
+                tel: document.getElementById('waris-tel').value
+            };
+            
+            const tanggungan = [];
+            for (let i = 1; i <= 10; i++) {
+                const tNama = document.getElementById(`t-nama-${i}`)?.value.trim().toUpperCase() || '';
+                const tIc = document.getElementById(`t-ic-${i}`)?.value.trim() || '';
+                const tAge = document.getElementById(`t-age-${i}`)?.innerText || '-';
+                if (tNama) {
+                    tanggungan.push({ nama: tNama, ic: tIc, age: tAge });
+                }
+            }
+            currentUserProfile.tanggungan = tanggungan;
+            
+            saveUserLocal(currentUserProfile.ic, currentUserProfile);
+            showAlert("DISIMPAN", "Data keluarga disimpan secara selamat.", "✅");
+
+            if (window.cloudBridge && typeof window.cloudBridge.saveUserCloud === 'function') {
+                window.cloudBridge.saveUserCloud(currentUserProfile);
+            }
+        }
+
+        function updateAdminList() {
+            const list = JSON.parse(localStorage.getItem('sk_all_users') || '[]');
+            document.getElementById('count-ahli').innerText = list.length;
+            document.getElementById('admin-member-list').innerHTML = list.map(u => `
+                <div class="p-2 bg-slate-50 rounded-xl border text-[10px] flex justify-between">
+                    <span><b>${u.nama}</b> (${u.memberNo})</span>
+                </div>
+            `).join('');
+        }
+
+        function adminAddMember() {
+            const nama = document.getElementById('admin-member-nama').value.toUpperCase();
+            const ic = document.getElementById('admin-member-ic').value;
+            const no = document.getElementById('admin-member-no').value.toUpperCase();
+            if(!nama || !ic) return;
+            const newUser = { ic, nama, password: '123', memberNo: no, isAdmin: false, warisData: {}, tanggungan: [] };
+            saveUserLocal(ic, newUser);
+            updateAdminList();
+            showAlert("BERJAYA", "Ahli berjaya ditambah oleh Admin.", "✅");
+
+            if (window.cloudBridge && typeof window.cloudBridge.saveUserCloud === 'function') {
+                window.cloudBridge.saveUserCloud(newUser);
+            }
+        }
+
+        function saveAJK() {
+            const tempAJK = [];
+            const jawatanList = ["Pengerusi", "Timbalan Pengerusi", "Setiausaha", "Bendahari"];
+            const emojis = ["👤", "👥", "📝", "💰"];
+            const bgs = ["bg-emerald-100", "bg-blue-100", "bg-amber-100", "bg-purple-100"];
+
+            for (let i = 1; i <= 4; i++) {
+                const nama = document.getElementById(`admin-ajk-nama-${i}`).value.trim().toUpperCase();
+                const tel = document.getElementById(`admin-ajk-tel-${i}`).value.trim();
+                tempAJK.push({
+                    nama: nama || `NAMA ${jawatanList[i-1].toUpperCase()}`,
+                    tel: tel || "-",
+                    jawatan: jawatanList[i-1],
+                    emoji: emojis[i-1],
+                    bg: bgs[i-1]
+                });
+            }
+
+            window.masterAJK = tempAJK;
+            localStorage.setItem('sk_master_ajk', JSON.stringify(window.masterAJK));
+            window.syncAJKUI(window.masterAJK);
+            showAlert("BERJAYA", "Butiran senarai pentadbiran AJK berjaya dikemaskini!", "✅");
+
+            if (window.cloudBridge && typeof window.cloudBridge.saveAJKCloud === 'function') {
+                window.cloudBridge.saveAJKCloud(window.masterAJK);
+            }
+        }
+
+        function saveFirebaseConfig() {
+            const apiKey = document.getElementById('db-api-key').value.trim();
+            const projectId = document.getElementById('db-project-id').value.trim();
+            const authDomain = document.getElementById('db-auth-domain').value.trim();
+            const appId = document.getElementById('db-app-id').value.trim();
+
+            if (!apiKey || !projectId) {
+                showAlert("RALAT", "Sila masukkan sekurang-kurangnya API Key dan Project ID.");
+                return;
+            }
+
+            const config = {
+                apiKey: apiKey,
+                authDomain: authDomain || `${projectId}.firebaseapp.com`,
+                projectId: projectId,
+                storageBucket: `${projectId}.appspot.com`,
+                appId: appId || ""
+            };
+
+            localStorage.setItem('sk_firebase_config', JSON.stringify(config));
+            showAlert("HUBUNGAN BERJAYA", "Butiran Firebase disimpan. Aplikasi akan dimuat semula untuk mengaktifkan sinkronisasi awan global!", "✅");
+            setTimeout(() => { location.reload(); }, 2000);
+        }
+
+        function resetFirebaseConfig() {
+            localStorage.removeItem('sk_firebase_config');
+            showAlert("SET SEMULA", "Aplikasi diset semula ke Mod Tempatan sahaja. Memuatkan semula halaman...", "✅");
+            setTimeout(() => { location.reload(); }, 2000);
+        }
+
+        function showTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('nav button').forEach(b => b.classList.remove('nav-active', 'text-emerald-600'));
+            btn.classList.add('nav-active', 'text-emerald-600');
+            
+            if (id === 'keluarga' && currentUserProfile) {
+                renderTanggungan(currentUserProfile.tanggungan || []);
+            }
+        }
+
+        function toggleAuth(s) {
+            document.getElementById('signup-form').classList.toggle('hidden', !s);
+            document.getElementById('login-form').classList.toggle('hidden', s);
+        }
+
+        function showAlert(t, m, i="⚠️") {
+            document.getElementById('alert-icon').innerText = i; document.getElementById('alert-title').innerText = t; document.getElementById('alert-msg').innerText = m;
+            document.getElementById('custom-alert').classList.remove('hidden');
+        }
+        function closeAlert() { document.getElementById('custom-alert').classList.add('hidden'); }
+        function logout() { localStorage.removeItem('sk_current_ic'); location.reload(); }
+        function bukaAdminPanel() { if(currentUserProfile?.isAdmin) document.getElementById('admin-panel').classList.remove('hidden'); }
+        function tutupAdmin() { document.getElementById('admin-panel').classList.add('hidden'); }
+        function copyAcc() { navigator.clipboard.writeText("0410041000169514"); showAlert("DISALIN", "No akaun disalin.", "✅"); }
+
+        function getAgeFromIC(ic) {
+            if (!ic || ic.toString().trim().length < 6) return '-';
+            const icStr = ic.toString().trim();
+            let yearPart = icStr.substring(0, 2);
+            let currentYear = new Date().getFullYear();
+            let century = (parseInt(yearPart) > (currentYear % 100)) ? 1900 : 2000;
+            return currentYear - (century + parseInt(yearPart));
+        }
+
+        function calculateAge(ic, index) {
+            const ageDisplay = document.getElementById(`t-age-${index}`);
+            if (ageDisplay) {
+                ageDisplay.innerText = getAgeFromIC(ic);
+            }
+        }
+
+        function renderTanggungan(existing = []) {
+            const container = document.getElementById('tanggungan-container');
+            if (!container) return;
+            let h = '';
+            for(let i=1; i<=10; i++) {
+                const data = existing[i-1] || { nama: '', ic: '', age: '-' };
+                const currentAge = data.ic ? getAgeFromIC(data.ic) : '-';
+                h += `
+                <div class="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center">
+                        <p class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Tanggungan ${i}</p>
+                        <div class="bg-pink-50 px-3 py-1 rounded-full">
+                            <p class="text-[8px] font-black text-pink-600 uppercase">UMUR: <span id="t-age-${i}">${currentAge}</span></p>
+                        </div>
+                    </div>
+                    <input id="t-nama-${i}" type="text" value="${data.nama || ''}" placeholder="NAMA PENUH" class="w-full p-3 bg-slate-50 rounded-xl text-[10px] font-bold uppercase border-none focus:ring-2 focus:ring-pink-500">
+                    <input id="t-ic-${i}" type="number" value="${data.ic || ''}" oninput="calculateAge(this.value, ${i})" placeholder="NO IC" class="w-full p-3 bg-slate-50 rounded-xl text-[10px] font-bold border-none focus:ring-2 focus:ring-pink-500">
+                </div>`;
+            }
+            container.innerHTML = h;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedIc = localStorage.getItem('sk_current_ic');
             if (savedIc) {
-                try {
-     
+                const u = getUserLocal(savedIc);
+                if (u) { currentUserProfile = u; showApp(u); }
+            }
+        });
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        let savedConfig = localStorage.getItem('sk_firebase_config');
+        let firebaseConfig = null;
+        if (savedConfig) {
+            try { firebaseConfig = JSON.parse(savedConfig); } catch(e) {}
+        } else {
+            try {
+                if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+                    firebaseConfig = JSON.parse(__firebase_config);
+                }
+            } catch(e) {}
+        }
+
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'smart-khairat-v1';
+
+        if (firebaseConfig && firebaseConfig.apiKey) {
+            try {
+                const app = initializeApp(firebaseConfig);
+                const auth = getAuth(app);
+                const db = getFirestore(app);
+
+                signInAnonymously(auth).then((userCredential) => {
+                    const user = userCredential.user;
+                    if (!user) return;
+
+                    const statusLabel = document.getElementById('connection-status');
+                    if (statusLabel) {
+                        statusLabel.innerText = "SINKRONISASI AWAN AKTIF 🌐";
+                    }
+
+                    const ajkDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'config', 'ajk');
+                    onSnapshot(ajkDocRef, (snap) => {
+                        if (snap.exists()) {
+                            const cloudAJK = snap.data().ajk;
+                            if (cloudAJK && cloudAJK.length >= 4) {
+                                window.masterAJK = cloudAJK;
+                                localStorage.setItem('sk_master_ajk', JSON.stringify(window.masterAJK));
+                                window.syncAJKUI(window.masterAJK);
+                            }
+                        }
+                    });
+
+                    const usersColRef = collection(db, 'artifacts', appId, 'public', 'data', 'users');
+                    onSnapshot(usersColRef, (snap) => {
+                        let cloudUsers = [];
+                        snap.forEach(docSnap => { cloudUsers.push(docSnap.data()); });
+
+                        let localUsers = JSON.parse(localStorage.getItem('sk_all_users') || '[]');
+                        let merged = [...localUsers];
+                        
+                        cloudUsers.forEach(cu => {
+                            localStorage.setItem('sk_user_' + cu.ic, JSON.stringify(cu));
+                            if (!merged.some(lu => lu.ic === cu.ic)) {
+                                merged.push({ ic: cu.ic, nama: cu.nama, memberNo: cu.memberNo });
+                            } else {
+                                merged = merged.map(lu => lu.ic === cu.ic ? { ic: cu.ic, nama: cu.nama, memberNo: cu.memberNo } : lu);
+                            }
+                        });
+
+                        localStorage.setItem('sk_all_users', JSON.stringify(merged));
+                        updateAdminList();
+                    });
+
+                    window.cloudBridge = {
+                        saveAJKCloud: async (ajkList) => {
+                            if (!auth.currentUser) return;
+                            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'config', 'ajk'), { ajk: ajkList });
+                        },
+                        saveUserCloud: async (userData) => {
+                            if (!auth.currentUser) return;
+                            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', userData.ic), userData, { merge: true });
+                        },
+                        getUserCloud: async (ic) => {
+                            if (!auth.currentUser) return null;
+                            const dSnap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', ic));
+                            return dSnap.exists() ? dSnap.data() : null;
+                        }
+                    };
+
+                });
+            } catch(e) {}
+        }
+    </script>
+</body>
+</html>
+
+```
